@@ -16,11 +16,12 @@ npm install envialosimple-transaccional
 ## Basic Usage
 
 ```ts
-import { Transaccional, MailParams, Attachment } from "envialosimple-transaccional";
+import { Transaccional, MailParams } from "envialosimple-transaccional";
 
-estr = Transaccional(your_api_key);
+const estr = Transaccional(your_api_key);
+const params = new MailParams();
 
-mailParams
+params
     .setFrom('no-reply@mycompany.com', 'MyCompany Notifications')
     .setTo('john.doe@example.com', 'John Doe')
     .setSubject('This is a test for {{name}}')
