@@ -1,9 +1,10 @@
 {
   "name": "@envialosimple/transaccional",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node.js SDK for EnvíaloSimple Transaccional",
   "main": "src/index.ts",
   "scripts": {
+    "build": "tsc",
     "test": "jest --config jest.config.ts"
   },
   "repository": {

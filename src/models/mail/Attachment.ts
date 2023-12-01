@@ -1,3 +1,5 @@
+import { AttachmentObject } from "../../types/Mail.types";
+
 export class Attachment {
   content: string;
   filename: string;
@@ -16,7 +18,7 @@ export class Attachment {
     this.id = id;
   }
 
-  toObject(): object {
+  toObject(): AttachmentObject {
     return {
       content: this.content,
       filename: this.filename,

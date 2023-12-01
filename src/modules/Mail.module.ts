@@ -1,5 +1,6 @@
 import { MailParams } from "../models/mail/MailParams";
 import { HttpModule } from "./Http.module";
+import { SuccessfulResponse } from "../types/Mail.types";
 
 export class MailModule {
   endpoint="/mail/send";
@@ -11,7 +12,7 @@ export class MailModule {
     this.http = new HttpModule(api_key);
   }
 
-  async send(params: MailParams): Promise<object> {
+  async send(params: MailParams): Promise<SuccessfulResponse> {
     const data = params.toObject();
     const response = await this.http.post(this.base_url + this.endpoint, data);
 
@@ -26,6 +27,8 @@ export class MailModule {
       }
     }
 
-    return response.data;
+    const success_data: SuccessfulResponse = response.data;
+
+    return success_data;
   }
 }

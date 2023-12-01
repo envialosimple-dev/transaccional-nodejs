@@ -1,10 +1,11 @@
+import { MailParamsObject } from "../../types/Mail.types";
 import { Attachment } from "./Attachment";
 
 export class MailParams {
   from: string;
-  from_name: string;
+  from_name?: string;
   to: string;
-  to_name: string;
+  to_name?: string;
   subject: string;
   text: string;
   html: string;
@@ -79,14 +80,14 @@ export class MailParams {
     return this;
   }
 
-  toObject(): object {
-    let result = {};
+  toObject(): MailParamsObject {
+    let result: MailParamsObject = {};
 
     // Pass only email if no name was provided
     if (this.from_name === undefined) {
-      result["from"] = this.from;
+      result.from = this.from;
     } else {
-      result["from"] = {
+      result.from = {
         email: this.from,
         name: this.from_name,
       };
@@ -94,9 +95,9 @@ export class MailParams {
 
     // Pass only email if no name was provided
     if (this.to_name === undefined) {
-      result["to"] = this.to;
+      result.to = this.to;
     } else {
-      result["to"] = {
+      result.to = {
         email: this.to,
         name: this.to_name,
       };
@@ -104,27 +105,27 @@ export class MailParams {
 
     // Pass only needed keys
     if (this.template_id !== undefined) {
-      result["templateID"] = this.template_id;
+      result.templateID = this.template_id;
     } else {
       if (this.text !== undefined) {
-        result["text"] = this.text;
+        result.text = this.text;
       }
       if (this.html !== undefined) {
-        result["html"] = this.html;
+        result.html = this.html;
       }
     }
 
     // Add remaining keys
-    result["subject"] = this.subject;
-    result["substitutions"] = this.substitutions;
-    result["variables"] = this.variables;
+    result.subject = this.subject;
+    result.substitutions = this.substitutions;
+    result.variables = this.variables;
 
     // Serialize attachments
     if (this.attachments !== undefined && this.attachments?.length > 0) {
-      result["attachments"] = [];
+      result.attachments = [];
 
       this.attachments?.forEach((attachment) => {
-        result["attachments"].push(attachment.toObject());
+        result.attachments?.push(attachment.toObject());
       });
     }
 
