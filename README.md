@@ -7,16 +7,16 @@
 - Node.js 18 or higher
 - EnvíaloSimple Transaccional API Key ([Create a demo account for free here](https://envialosimple.com/transaccional))
 
-## Installation (NOT PUBLISHED YET)
+## Installation
 
 ```bash
-npm install envialosimple-transaccional
+npm install @envialosimple/transaccional
 ```
 
 ## Basic Usage
 
 ```ts
-import { Transaccional, MailParams } from "envialosimple-transaccional";
+import { Transaccional, MailParams } from "@envialosimple/transaccional";
 
 const estr = Transaccional(your_api_key);
 const params = new MailParams();
