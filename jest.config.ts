@@ -167,7 +167,7 @@ const config: Config = {
   // ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
-  "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(js?|ts?|mts?|mjs?)$",
+  "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(js?|ts?)$",
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: undefined,
