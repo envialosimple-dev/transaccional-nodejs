@@ -18,7 +18,7 @@ npm install @envialosimple/transaccional
 ```ts
 import { Transaccional, MailParams } from "@envialosimple/transaccional";
 
-const estr = Transaccional(your_api_key);
+const estr = new Transaccional(your_api_key);
 const params = new MailParams();
 
 params
