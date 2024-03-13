@@ -6,23 +6,31 @@ export class MailParams {
   from_name?: string;
   to: string;
   to_name?: string;
-  subject: string;
+  reply_to?: string;
+  subject?: string;
+  preview_text?: string;
   text: string;
   html: string;
   attachments?: Attachment[];
   template_id?: string;
   substitutions?: { [key: string]: string | number };
+  context?: object;
   variables?: { [key: string]: string | number };
 
   constructor(config?: any) {
     this.from = config?.from;
+    this.from_name = config?.from_name;
     this.to = config?.to;
+    this.to_name = config?.to_name;
+    this.reply_to = config?.reply_to
     this.subject = config?.subject;
+    this.preview_text = config?.preview_text;
     this.template_id = config?.templateId;
     this.text = config?.text;
     this.html = config?.html;
     this.attachments = config?.attachments ?? [];
     this.substitutions = config?.substitutions ?? {};
+    this.context = config?.context ?? {};
     this.variables = config?.variables ?? {};
   }
 
@@ -38,8 +46,18 @@ export class MailParams {
     return this;
   }
 
+  setReplyTo(reply_to: string): MailParams {
+    this.reply_to = reply_to;
+    return this;
+  }
+
   setSubject(subject: string): MailParams {
     this.subject = subject;
+    return this;
+  }
+
+  setPreviewText(preview_text: string): MailParams {
+    this.preview_text = preview_text;
     return this;
   }
 
@@ -76,13 +94,56 @@ export class MailParams {
   setSubstitutions(substitutions: {
     [key: string]: string | number;
   }): MailParams {
+    console.warn('Warning: The setSubstitutions() is deprecated ' + 
+                 'and will be removed in a future release. ' + 
+                 'Please use setContext() instead.');
     this.substitutions = substitutions;
     return this;
+  }
+
+  setContext(context: object) {
+    this.context = context;
+    return this;
+  }
+
+  isScalar(variable: any) {
+    const scalarTypes = ['boolean', 'string', 'number'];
+    return scalarTypes.includes(typeof variable);
   }
 
   toObject(): MailParamsObject {
     let result: MailParamsObject = {};
 
+    if (this.to === undefined) {
+      throw new Error('Email address "To" must be set');
+    }
+
+    if (this.template_id === undefined) {
+      if (this.from === undefined) {
+        throw new Error('Email address "From" must be set');
+      }
+
+      if (this.subject === undefined) {
+        throw new Error("Subject must be set");
+      }  
+    }
+
+    if (this.substitutions !== undefined) {
+      Object.entries(this.substitutions).forEach(([_, value]) => {
+        if (!this.isScalar(value)) {
+          throw new Error('Substitutions can only be scalar values');
+        }
+      });
+
+      // Copy substitutions to context if necessary
+      if (this.context !== undefined) {
+        if (Object.entries(this.substitutions).length > 0 &&
+            Object.entries(this.context).length === 0) {
+          this.context = this.substitutions;
+        }
+      }
+    }
+    
     // Pass only email if no name was provided
     if (this.from_name === undefined) {
       result.from = this.from;
@@ -103,6 +164,14 @@ export class MailParams {
       };
     }
 
+    if (this.preview_text !== undefined) {
+      result.preview_text = this.preview_text;
+    }
+
+    if (this.reply_to !== undefined) {
+      result.reply_to = this.reply_to;
+    }
+
     // Pass only needed keys
     if (this.template_id !== undefined) {
       result.templateID = this.template_id;
@@ -117,7 +186,7 @@ export class MailParams {
 
     // Add remaining keys
     result.subject = this.subject;
-    result.substitutions = this.substitutions;
+    result.context = this.context;
     result.variables = this.variables;
 
     // Serialize attachments

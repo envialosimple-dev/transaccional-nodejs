@@ -10,6 +10,8 @@ declare global {
       TEST_TEMPLATE_ID: string;
       TEST_INVALID_FROM_EMAIL: string;
       TEST_SUBJECT: string;
+      TEST_REPLY_TO: string;
+      TEST_PREVIEW_TEXT: string;
     }
   }
 }

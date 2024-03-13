@@ -12,10 +12,12 @@ test("Basic E-Mail", async () => {
   mailParams
     .setFrom(process.env.TEST_FROM_EMAIL!, process.env.TEST_FROM_NAME!)
     .setTo(process.env.TEST_TO_EMAIL!, process.env.TEST_TO_NAME)
+    .setReplyTo(process.env.TEST_REPLY_TO!)
     .setSubject(process.env.TEST_SUBJECT!)
+    .setPreviewText(process.env.TEST_PREVIEW_TEXT!)
     .setHtml(`<body>Jest Basic {{sub}}</body>`)
     .setText(`Jest Basic {{sub}}`)
-    .setSubstitutions({ sub: "substitution" });
+    .setContext({ sub: "substitution" });
 
   const outcome = await estr.mail.send(mailParams);
 
@@ -32,10 +34,12 @@ test("E-Mail with Attachments", async () => {
   mailParams
     .setFrom(process.env.TEST_FROM_EMAIL!, process.env.TEST_FROM_NAME!)
     .setTo(process.env.TEST_TO_EMAIL!, process.env.TEST_TO_NAME!)
+    .setReplyTo(process.env.TEST_REPLY_TO!)
     .setSubject(process.env.TEST_SUBJECT!)
+    .setPreviewText(process.env.TEST_PREVIEW_TEXT!)
     .setHtml(`<body><img src="cid:logo"/>Jest Basic {{sub}}</body>`)
     .setText(`Jest Basic {{sub}}`)
-    .setSubstitutions({ sub: "substitution" })
+    .setContext({ sub: "substitution" })
     .addAttachment(attachment)
     .addAttachment(attachment_inline);
 

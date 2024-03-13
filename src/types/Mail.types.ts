@@ -13,11 +13,13 @@ export type AttachmentObject = {
 export type MailParamsObject = {
   from?: string | { email: string; name: string };
   to?: string | { email: string; name: string };
+  reply_to?: string;
   subject?: string;
+  preview_text?: string;
   text?: string;
   html?: string;
   attachments?: AttachmentObject[];
   templateID?: string;
-  substitutions?: { [key: string]: string | number };
+  context?: object;
   variables?: { [key: string]: string | number };
 };

@@ -24,10 +24,12 @@ const params = new MailParams();
 params
     .setFrom('no-reply@mycompany.com', 'MyCompany Notifications')
     .setTo('john.doe@example.com', 'John Doe')
+    .setReplyTo('reply@here.com')
     .setSubject('This is a test for {{name}}')
+    .setPreviewText('A glimpse of what comes next...')
     .setHtml('<h1>HTML emails are cool, {{name}}</h1>')
     .setText('Text emails are also cool, {{name}}')
-    .setSubstitutions({name: 'John'});
+    .setContext({name: 'John'});
 
 
 await estr.mail.send(params);
