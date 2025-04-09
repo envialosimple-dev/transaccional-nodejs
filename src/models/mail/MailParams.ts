@@ -1,10 +1,10 @@
-import { MailParamsObject } from "../../types/Mail.types";
+import { MailParamsObject, Recipient } from "../../types/Mail.types";
 import { Attachment } from "./Attachment";
 
 export class MailParams {
   from: string;
   from_name?: string;
-  to: string;
+  to: string|Array<Recipient>;
   to_name?: string;
   reply_to?: string;
   subject?: string;
@@ -40,7 +40,7 @@ export class MailParams {
     return this;
   }
 
-  setTo(to: string, name?: string): MailParams {
+  setTo(to: string|Array<Recipient>, name?: string): MailParams {
     this.to = to;
     if (name !== undefined) this.to_name = name;
     return this;
@@ -155,7 +155,7 @@ export class MailParams {
     }
 
     // Pass only email if no name was provided
-    if (this.to_name === undefined) {
+    if (this.to_name === undefined || Array.isArray(this.to)) {
       result.to = this.to;
     } else {
       result.to = {

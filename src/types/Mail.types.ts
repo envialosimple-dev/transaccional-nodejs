@@ -10,9 +10,14 @@ export type AttachmentObject = {
   filename: string;
 };
 
+export type Recipient = {
+  email: string;
+  name?: string;
+}
+
 export type MailParamsObject = {
   from?: string | { email: string; name: string };
-  to?: string | { email: string; name: string };
+  to?: string | Recipient | Array<Recipient>;
   reply_to?: string;
   subject?: string;
   preview_text?: string;

@@ -24,6 +24,33 @@ test("Basic E-Mail", async () => {
   expect(outcome.queued).toBe(true);
 });
 
+test("Multiple To E-Mail", async () => {
+  const estr = new Transaccional(process.env.TEST_API_KEY!);
+  const mailParams = new MailParams();
+
+  mailParams
+    .setFrom(process.env.TEST_FROM_EMAIL!, process.env.TEST_FROM_NAME!)
+    .setTo([
+      {email: process.env.TEST_TO_EMAIL, name: process.env.TEST_TO_NAME},
+      {email: process.env.TEST_SECOND_TO_EMAIL, name: process.env.TEST_SECOND_TO_NAME},
+      {email: process.env.TEST_THIRD_TO_EMAIL},
+    ])
+    .setReplyTo(process.env.TEST_REPLY_TO!)
+    .setSubject(process.env.TEST_SUBJECT!)
+    .setPreviewText(process.env.TEST_PREVIEW_TEXT!)
+    .setHtml(`<body>Jest Multiple To {{sub}}</body>`)
+    .setText(`Jest Multiple To {{sub}}`)
+    .setContext({ sub: "substitution" });
+
+  const outcome = await estr.mail.send(mailParams);
+
+  if(Array.isArray(outcome)){
+    expect(outcome[0].queued).toBe(true);
+  } else {
+    expect(outcome.queued).toBe(true);
+  }
+});
+
 test("E-Mail with Attachments", async () => {
   const estr = new Transaccional(process.env.TEST_API_KEY!);
   const mailParams = new MailParams();

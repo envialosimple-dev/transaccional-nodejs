@@ -34,3 +34,29 @@ params
 
 await estr.mail.send(params);
 ```
+
+## Multiple Recipients Usage
+
+```ts
+import { Transaccional, MailParams } from "@envialosimple/transaccional";
+
+const estr = new Transaccional(your_api_key);
+const params = new MailParams();
+
+params
+    .setFrom('no-reply@mycompany.com', 'MyCompany Notifications')
+    .setTo([
+      {email: 'john.doe@example.com', name: 'John Doe'},
+      {email: 'jane.doe@example.com', name: 'Jane Doe'},
+      {email: 'sean.doe@example.com'},
+    ])
+    .setReplyTo('reply@here.com')
+    .setSubject('This is a test for {{name}}')
+    .setPreviewText('A glimpse of what comes next...')
+    .setHtml('<h1>HTML emails are cool, {{name}}</h1>')
+    .setText('Text emails are also cool, {{name}}')
+    .setContext({name: 'John'});
+
+
+await estr.mail.send(params);
+```
