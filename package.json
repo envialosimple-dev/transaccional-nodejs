@@ -1,6 +1,6 @@
 {
   "name": "@envialosimple/transaccional",
-  "version": "1.0.5",
+  "version": "1.1.2",
   "description": "Node.js SDK for EnvíaloSimple Transaccional",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
